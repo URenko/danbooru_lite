@@ -33,7 +33,6 @@ class ServerStatus
         rails_version: rails_version,
         puma_version: puma_version,
         distro_version: distro_version,
-        libvips_version: libvips_version,
         ffmpeg_version: ffmpeg_version,
         mkvmerge_version: mkvmerge_version,
         exiftool_version: exiftool_version,
@@ -148,10 +147,6 @@ class ServerStatus
 
     def distro_version
       `. /etc/os-release; echo "$NAME $VERSION"`.chomp
-    end
-
-    def libvips_version
-      Vips::LIBRARY_VERSION
     end
 
     def ffmpeg_version

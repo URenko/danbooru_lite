@@ -8,7 +8,7 @@ gem "rails", "~> 7.1"
 gem "pg"
 gem "simple_form"
 gem "sanitize"
-gem 'ruby-vips'
+gem 'pycall'
 gem 'diff-lcs', :require => "diff/lcs/array"
 gem 'bcrypt', :require => "bcrypt"
 gem 'stripe'

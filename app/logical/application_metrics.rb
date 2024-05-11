@@ -66,7 +66,6 @@ class ApplicationMetrics
       rails_version: status.rails_version,
       puma_version: status.puma_version,
       distro_version: status.distro_version,
-      libvips_version: status.libvips_version,
       ffmpeg_version: status.ffmpeg_version,
       exiftool_version: status.exiftool_version,
       jemalloc_version: status.jemalloc_version,
@@ -204,7 +203,6 @@ class ApplicationMetrics
       rails_version:    status.rails_version,
       puma_version:     status.puma_version,
       distro_version:   status.distro_version,
-      libvips_version:  status.libvips_version,
       ffmpeg_version:   status.ffmpeg_version,
       exiftool_version: status.exiftool_version,
       jemalloc_version: status.jemalloc_version,
@@ -312,10 +310,6 @@ class ApplicationMetrics
       ruby_yjit_code_gc_count:                         [:counter, "Total number of code garbage collections."],
       ruby_yjit_code_region_size:                      [:gauge,   "Size in bytes of memory region allocated for JIT code."],
       ruby_yjit_object_shape_count:                    [:gauge,   "Current number of object shapes."],
-
-      vips_memory_bytes:                               [:gauge,   "Current amount of memory allocated by libvips."],
-      vips_allocations:                                [:gauge,   "Current number of active memory allocations by libvips."],
-      vips_files:                                      [:gauge,   "Current number of files opened by libvips."],
     }, { worker: puma_worker_id })
 
     if Jemalloc.enabled?
@@ -468,12 +462,6 @@ class ApplicationMetrics
       metrics[:ruby_gc_pool_heap_slots][slot_size: pool_stats[:slot_size], type: :eden].set(pool_stats[:heap_eden_slots])
       metrics[:ruby_gc_pool_heap_slots][slot_size: pool_stats[:slot_size], type: :tomb].set(pool_stats[:heap_tomb_slots])
     end
-
-    metrics.set({
-      vips_memory_bytes: Vips.tracked_mem,
-      vips_allocations:  Vips.tracked_allocs,
-      vips_files:        Vips.tracked_files,
-    })
 
     %i[io fast].each do |name|
       pool = Concurrent.executor(name)
